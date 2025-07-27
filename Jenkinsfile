@@ -11,7 +11,8 @@ pipeline {
         stage('Run Tests') {
             steps {
                 sh 'pip install -r requirements.txt'
-                sh 'pytest --maxfail=1 --disable-warnings --tb=short'
+                sh 'export PATH=$PATH:$HOME/.local/bin'
+		sh 'pytest --maxfail=1 --disable-warnings --tb=short'
             }
         }
 
