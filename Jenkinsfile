@@ -2,25 +2,28 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone Repo') {
+        stage('Checkout Code') {
             steps {
-                git 'https://github.com/yatindrap6/flask-devops-app.git'
+                git credentialsId: 'github-creds', url: 'https://github.com/yatindrap6/flask-devops-app.git'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh 'pip install -r requirements.txt'
+                sh 'pytest --maxfail=1 --disable-warnings --tb=short'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    docker.build('flask-devops-app')
-                }
+                sh 'docker build -t flask-devops-app .'
             }
         }
 
         stage('Run Container') {
             steps {
-                script {
-                    sh 'docker run -d -p 5000:5000 flask-devops-app'
-                }
+                sh 'docker run -d -p 5000:5000 flask-devops-app'
             }
         }
     }
