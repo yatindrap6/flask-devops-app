@@ -13,7 +13,8 @@ pipeline {
                 sh '''
                   pip install --user -r requirements.txt
                   export PATH=$PATH:/var/lib/jenkins/.local/bin
-                  pytest --maxfail=1 --disable-warnings --tb=short
+                  export PYTHONPATH=.
+		  pytest --maxfail=1 --disable-warnings --tb=short
                 '''
                     }
                            } 
