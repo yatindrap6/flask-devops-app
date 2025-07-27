@@ -10,11 +10,13 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'pip install -r requirements.txt'
-                sh 'export PATH=$PATH:$HOME/.local/bin'
-		sh 'pytest --maxfail=1 --disable-warnings --tb=short'
-            }
-        }
+                sh '''
+                  pip install --user -r requirements.txt
+                  export PATH=$PATH:/var/lib/jenkins/.local/bin
+                  pytest --maxfail=1 --disable-warnings --tb=short
+                '''
+                    }
+                           } 
 
         stage('Build Docker Image') {
             steps {
